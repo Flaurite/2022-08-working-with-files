@@ -50,6 +50,7 @@
                 <column id="startDate"/>
                 <column id="endDate"/>
                 <column id="manager"/>
+                <column id="defaultProject"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

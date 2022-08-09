@@ -40,10 +40,13 @@
                         <action id="entityClear" type="entity_clear"/>
                     </actions>
                 </entityPicker>
+                <checkBox id="defaultProjectField" property="defaultProject"/>
             </column>
         </form>
-        <groupBox id="tasksBox" caption="msg://com.company.jmixpm.entity/Project.tasks">
-            <table id="tasksTable" dataContainer="tasksDc" width="100%" height="200px">
+        <groupBox id="tasksBox"
+                  caption="msg://com.company.jmixpm.entity/Project.tasks">
+            <table id="tasksTable" dataContainer="tasksDc" width="100%"
+                   height="200px">
                 <actions>
                     <action id="create" type="create"/>
                     <action id="edit" type="edit"/>

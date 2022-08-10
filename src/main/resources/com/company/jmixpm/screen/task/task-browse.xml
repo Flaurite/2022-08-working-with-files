@@ -52,6 +52,7 @@
                 <column id="startDate"/>
                 <column id="estimatedEfforts"/>
                 <column id="project"/>
+                <column id="attachment"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
@@ -59,6 +60,10 @@
                 <button id="createBtn" action="tasksTable.create"/>
                 <button id="editBtn" action="tasksTable.edit"/>
                 <button id="removeBtn" action="tasksTable.remove"/>
+                <fileStorageUpload id="importTasksField"
+                                   fileStoragePutMode="MANUAL"
+                                   uploadButtonIcon="CLOUD_UPLOAD"
+                                   uploadButtonCaption="msg://importTasksField.uploadButtonCaption"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

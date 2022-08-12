@@ -43,8 +43,7 @@
                 <action id="edit" type="edit"/>
                 <action id="remove" type="remove"/>
                 <action id="showRoleAssignments" type="showRoleAssignments"/>
-                <action id="showUserSubstitutions"
-                        type="showUserSubstitutions"/>
+                <action id="showUserSubstitutions" type="showUserSubstitutions"/>
                 <action id="changePassword" type="changePassword"/>
                 <action id="resetPassword" type="resetPassword"/>
                 <action id="resetRememberMeToken" type="resetRememberMeToken"/>
@@ -66,6 +65,7 @@
                 <button id="removeBtn" action="usersTable.remove"/>
                 <button id="showRoleAssignmentsBtn"
                         action="usersTable.showRoleAssignments"/>
+                <button id="downloadSelectedTasks" caption="Download zip"/>
                 <popupButton id="additionalActionsBtn"
                              caption="msg://additional" icon="GEARS">
                     <actions>

@@ -49,4 +49,35 @@
       </list>
     </option>
   </component>
+  <component name="JmixPluginProjectSettings">
+    <option name="savedDbProperties">
+      <list>
+        <SavedDbProperties>
+          <option name="databaseName" value="jmixpm" />
+          <option name="dbType" value="hsqlfile" />
+          <option name="dbmsVersion" />
+          <option name="host" value=".jmix/hsqldb" />
+          <option name="url" value="jdbc:hsqldb:file:.jmix/hsqldb/jmixpm" />
+          <option name="user" value="sa" />
+        </SavedDbProperties>
+        <SavedDbProperties>
+          <option name="databaseName" value="jmixpm" />
+          <option name="dbType" value="postgres" />
+          <option name="dbmsVersion" />
+          <option name="host" value="localhost" />
+          <option name="pass" value="jmix" />
+          <option name="url" value="jdbc:postgresql://localhost/jmixpm" />
+          <option name="user" value="jmix" />
+        </SavedDbProperties>
+        <SavedDbProperties>
+          <option name="databaseName" value="jmixpm" />
+          <option name="dbType" value="hsql" />
+          <option name="dbmsVersion" />
+          <option name="host" value="localhost" />
+          <option name="url" value="jdbc:hsqldb:hsql://localhost/jmixpm" />
+          <option name="user" value="sa" />
+        </SavedDbProperties>
+      </list>
+    </option>
+  </component>
 </project>

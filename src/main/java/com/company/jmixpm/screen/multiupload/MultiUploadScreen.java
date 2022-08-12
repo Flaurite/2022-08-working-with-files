@@ -4,25 +4,32 @@ import io.jmix.ui.Notifications;
 import io.jmix.ui.UiComponents;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.FileMultiUploadField;
+import io.jmix.ui.component.FileStorageUploadField;
+import io.jmix.ui.component.SingleFileUploadField;
 import io.jmix.ui.screen.Screen;
 import io.jmix.ui.screen.Subscribe;
 import io.jmix.ui.screen.UiController;
 import io.jmix.ui.screen.UiDescriptor;
 import io.jmix.ui.upload.TemporaryStorage;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
 
 @UiController("MultiUploadScreen")
 @UiDescriptor("multi-upload-screen.xml")
 public class MultiUploadScreen extends Screen {
 
     @Autowired
-    private FileMultiUploadField multiUpload;
+    private FileStorageUploadField filesStorageUploadField;
 
     @Autowired
     private Notifications notifications;
@@ -32,30 +39,41 @@ public class MultiUploadScreen extends Screen {
     @Autowired
     private TemporaryStorage temporaryStorage;
 
-    private Map<UUID, String> tempFiles;
+    @Subscribe("filesStorageUploadField")
+    public void onMultiUploadFileUploadSucceed(SingleFileUploadField.FileUploadSucceedEvent event) throws IOException {
+        UUID fileId = filesStorageUploadField.getFileId();
 
-    @Subscribe("clearTempStorageBtn")
-    public void onClearTempStorageBtnClick(Button.ClickEvent event) {
-        if (MapUtils.isNotEmpty(tempFiles)) {
-            tempFiles.keySet()
-                    .forEach(temporaryStorage::deleteFile);
-        }
-    }
+        File file = temporaryStorage.getFile(fileId);
 
-    @Subscribe("multiUpload")
-    public void onMultiUploadQueueUploadComplete(FileMultiUploadField.QueueUploadCompleteEvent event) {
-        tempFiles = new HashMap<>(multiUpload.getUploadsMap());
+        FileInputStream fileInputStream = new FileInputStream(file);
+        Workbook workbook = new XSSFWorkbook(fileInputStream);
+
+        Sheet sheet = workbook.getSheetAt(0);
 
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<UUID, String> entry : tempFiles.entrySet()) {
-            sb.append("UUID: ").append(entry.getKey())
-                    .append(" - Name: ").append(entry.getValue()).append("\n");
+
+        Map<Integer, List<String>> data = new HashMap<>();
+        int i = 0;
+        for (Row row : sheet) {
+            data.put(i, new ArrayList<>());
+            sb.append("Row ").append(i).append(" :\n");
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        sb.append("Value str: ").append(cell.getStringCellValue()).append("\n");
+                        data.get(i).add(cell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        sb.append("Value str: ").append(cell.getNumericCellValue()).append("\n");
+                        data.get(i).add(cell.getNumericCellValue() + "");
+                        break;
+                }
+            }
+            i++;
         }
 
-        notifications.create()
-                .withCaption("Uploaded files: \n" + sb)
+        notifications.create(Notifications.NotificationType.TRAY)
+                .withCaption(sb.toString())
                 .show();
-
-        multiUpload.clearUploads();
     }
 }
